@@ -32,8 +32,9 @@
                                     @User.Identity.Name
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbar Dropdown">
-                                    <li><a class="dropdown-item" asp-controller="User" ,asp-action="Index">Profil</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Basket" ,asp-action="Index">Sepetim</a></li>
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Index">Profil</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Basket" asp-action="Index">Sepetim</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="CheckoutHistory">Satın Alma Geçmişi</a></li>
                                     <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Çıkış</a></li>
                                 </ul>
                             </li>

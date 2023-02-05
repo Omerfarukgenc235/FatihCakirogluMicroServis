@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "CheckoutHistory";
+}
+
+@model List<OrderViewModel>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Satın Alma Geçmişi</h5>
+                @if (Model.Any())
+                {
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <th>Sipariş No</th>
+                            <th>Kurs Satın Alma Tarihi</th>
+                            <th>Detaylar</th>
+                        </tr>
+                        @foreach (var x in Model)
+                        {
+                            <tr>
+                                <td>@x.Id</td>
+                                <td>@x.CreatedDate.ToShortDateString()</td>
+                                <td>
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th>Kurs Adı</th>
+                                            <th>Kurs Fiyatı</th>
+                                        </tr>
+                                        @foreach (var y in x.OrderItems)
+                                        {
+                                            <tr>
+                                                <td>@y.ProductName</td>
+                                                <td>@y.Price ₺</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        Satın aldığınız herhangi bir kurs bulanamadı.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

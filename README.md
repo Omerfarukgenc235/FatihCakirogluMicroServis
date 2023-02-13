@@ -36,7 +36,7 @@ Domain Driven Design
 
 CQRS (MediatR Libarary)
 
-FakePayment Microservice
+<h1><b>FakePayment Microservice </b></h1>
 
 Ödeme işlemlerinden sorumlu olacak mikroservisimiz.
 
@@ -70,6 +70,6 @@ Access Token ile microservice'lerimizi korumak
 
 OAuth 2.0 / OpenID Connect protokollerine uygun yapı inşa etmek
 
-Asp.Net Core MVC Microservice
+<h1><b>Asp.Net Core MVC Microservice </b></h1>
 
 Microservice'lerden almış olduğu dataları kullanıcıya gösterecek ve kullanıcı ile etkileşime geçmekten sorumlu olacak UI mikroservisimiz

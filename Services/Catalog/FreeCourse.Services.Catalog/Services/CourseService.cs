@@ -3,9 +3,11 @@ using FreeCourse.Services.Catalog.Dtos;
 using FreeCourse.Services.Catalog.Models;
 using FreeCourse.Services.Catalog.Settings;
 using FreeCourse.Shared.Dtos;
+using Mass = MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using FreeCourse.Shared.Messages;
 
 namespace FreeCourse.Services.Catalog.Services
 {
@@ -14,13 +16,15 @@ namespace FreeCourse.Services.Catalog.Services
         private readonly IMongoCollection<Course> _courseCollection;
         private readonly IMongoCollection<Category> _categoryCollection;
         private readonly IMapper _mapper;
-        public CourseService(IMapper mapper, IDatabaseSettings databaseSettings)
+        private readonly Mass.IPublishEndpoint _publishEndpoint;
+        public CourseService(IMapper mapper, IDatabaseSettings databaseSettings,Mass.IPublishEndpoint publishEndpoint)
         {
             var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
             _courseCollection = database.GetCollection<Course>(databaseSettings.CourseCollectionName);
             _categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCollectionName);
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
         public async Task<Response<List<CourseDto>>> GetAllAsync()
         {
@@ -73,6 +77,11 @@ namespace FreeCourse.Services.Catalog.Services
             var result = await _courseCollection.FindOneAndReplaceAsync(x => x.Id == courseUpdateDto.Id, updateCourse);
             if (result == null)
                 return Response<NoContent>.Fail("Course not found", 404);
+            await _publishEndpoint.Publish<CourseNameChangedEvent>(new CourseNameChangedEvent
+            {
+                CourseId = updateCourse.Id,
+                UpdatedName = updateCourse.Name
+            });
             return Response<NoContent>.Success(204);
         }
         public async Task<Response<NoContent>> DeleteAsync(string id)

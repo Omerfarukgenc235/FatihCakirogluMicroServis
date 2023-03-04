@@ -55,6 +55,7 @@ namespace FreeCourse.IdentityServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes={ "catalog_fullpermission", "gateway_fullpermission", "photo_stock_fullpermission",IdentityServerConstants.LocalApi.ScopeName }
                 },
+                                    
                  new Client
                 {
                     ClientName = "Asp.Net Core MVC",
@@ -62,12 +63,20 @@ namespace FreeCourse.IdentityServer
                     AllowOfflineAccess = true,
                     ClientSecrets={new Secret ("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes={ "basket_fullpermission","gateway_fullpermission", "payment_fullpermission", "order_fullpermission", "discount_fullpermission", IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile,IdentityServerConstants.StandardScopes.OfflineAccess, IdentityServerConstants.LocalApi.ScopeName, "roles" },
+                    AllowedScopes={ "basket_fullpermission","gateway_fullpermission", "order_fullpermission",  IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile,IdentityServerConstants.StandardScopes.OfflineAccess, IdentityServerConstants.LocalApi.ScopeName, "roles" },
                     AccessTokenLifetime = 1*60*60,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60)-DateTime.Now).TotalSeconds,
                     RefreshTokenUsage = TokenUsage.ReUse                
-                 }
+                 },
+                 new Client
+                {
+                    ClientName = "Token Exchange Client",
+                    ClientId = "TokenExchangeClient",
+                    ClientSecrets={new Secret ("secret".Sha256())},
+                    AllowedGrantTypes = new []{ "urn:ietf:params:oauth:grant-type:token-exchange" },
+                    AllowedScopes={ "discount_fullpermission", "payment_fullpermission", IdentityServerConstants.StandardScopes.OpenId }
+                },
             };
     }
 }

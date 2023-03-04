@@ -1,3 +1,4 @@
+using FreeCourse.Gateway.DelegateHandlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Ocelot.DependencyInjection;
@@ -14,13 +15,15 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
     .AddJsonFile($"configuration.{hostingContext.HostingEnvironment.EnvironmentName}.json")
     .AddEnvironmentVariables();
 });
+builder.Services.AddHttpClient<TokenExchangeDelegateHandler>();
+
 builder.Services.AddAuthentication().AddJwtBearer("GatewayAuthenticationScheme",options =>
 {
     options.Authority = builder.Configuration["IdentityServerURL"];
     options.Audience = "resource_gateway";
     options.RequireHttpsMetadata = false;
 });
-builder.Services.AddOcelot();
+builder.Services.AddOcelot().AddDelegatingHandler<TokenExchangeDelegateHandler>();
 var app = builder.Build();
 app.MapGet("/", () => "Hello World!");
 app.UseOcelot();

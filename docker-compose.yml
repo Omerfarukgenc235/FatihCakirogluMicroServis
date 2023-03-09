@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   catalogdb:
     image: mongo
@@ -51,7 +51,7 @@ services:
     image: gateway_api_image
     build:
       context: .
-      dockerfile: FreeCourse.Gateway/Dockerfile    
+      dockerfile: FreeCourse.Gateway/Dockerfile
   aspnetcoremvc.web:
     image: aspnetcoremvc.web_image
     build:

@@ -12,7 +12,7 @@ services:
     restart: always
     ports:
       - "6379:6379"
-  discount:
+  discountdb:
     container_name: discountdb
     restart: always
     ports:
@@ -39,7 +39,7 @@ services:
     ports:
       - "1444:1433"
     volumes:
-      - orderdb_volume:/var/opt/mssql/server
+      - orderdb_volume:/var/opt/mssql
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=password12*
@@ -65,7 +65,7 @@ services:
     restart: on-failure
     environment:
      - ASPNETCORE_ENVIRONMENT=Development
-     - "ConnectionStrings:DefaultConnection=Server=identitydb,1433;Database=IdentityDb; User=sa; Password=password12*"
+     - "ConnectionStrings:DefaultConnection=Server=identitydb,1433;Database=IdentityDb; User=sa; Password=password12*;"
     ports:
       - "5001:80"
     depends_on:
@@ -97,7 +97,7 @@ services:
     environment:
      - ASPNETCORE_ENVIRONMENT=Development
      - IdentityServerURL=http://identityserver.api
-     - "ConnectionStrings:PostgreSql=User ID=admin;Password=password12*;Server=localhost;Port=5432;Database=discountdb;Integrated Security=true;Pooling=true"
+     - "ConnectionStrings:PostgreSql=User ID=admin;Password=password12*;Server=discountdb;Port=5432;Database=discountdb;Integrated Security=true;Pooling=true"
     ports:
       - "5014:80"
     depends_on:
@@ -117,7 +117,7 @@ services:
      - ASPNETCORE_ENVIRONMENT=Development
      - IdentityServerURL=http://identityserver.api
      - RabbitMQUrl=rabbitmq
-     - "ConnectionStrings:DefaultConnection:Server=orderdb,1444;Database=orderdb;User=sa;Password=password12*;TrustServerCertificate=True;"
+     - "ConnectionStrings:DefaultConnection=Server=orderdb,1433;Database=OrderDb; User=sa; Password=password12*;TrustServerCertificate=True"
     ports:
       - "5015:80"
     depends_on:

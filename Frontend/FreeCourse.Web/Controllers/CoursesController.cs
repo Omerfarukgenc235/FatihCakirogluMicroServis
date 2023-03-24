@@ -35,7 +35,15 @@ namespace FreeCourse.Web.Controllers
             var categories = await _catalogService.GetAllCategoryAsync();
             ViewBag.categoryList = new SelectList(categories, "Id", "Name");
             if (!ModelState.IsValid)
+            {
+                var errorMessage = "Lütfen gerekli alanları doldurun.";
+                foreach (var modelError in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    errorMessage += " " + modelError.ErrorMessage;
+                }
+                ViewBag.ErrorMessage = errorMessage;
                 return View();
+            }
             courseCreateInput.UserId = _sharedIdentityService.GetUserId;
             await _catalogService.CreateCourseAsync(courseCreateInput);
             return RedirectToAction(nameof(Index));

@@ -4,7 +4,7 @@ services:
     image: mongo
   basketdb:
     image: redis
-  discount:
+  discountdb:
     image: postgres
   identitydb:
     image: mcr.microsoft.com/mssql/server
@@ -46,7 +46,7 @@ services:
     image: order_api_image
     build:
       context: .
-      dockerfile: Services/Order/FreeCourse.Services.Order.API/Dockerfile    
+      dockerfile: Services/Order/FreeCourse.Services.Order.API/Dockerfile
   gateway.api:
     image: gateway_api_image
     build:

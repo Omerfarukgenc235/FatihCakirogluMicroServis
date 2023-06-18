@@ -40,7 +40,6 @@ namespace FreeCourse.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> ApplyDiscount(DiscountApplyInput discountApplyInput)
-
         {
             if(!ModelState.IsValid)
             {
